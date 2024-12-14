@@ -1,79 +1,72 @@
 #pragma once
 #include <iostream>
+#include <string>
+#include <vector>
 
 using namespace std;
 
 class Exception
 {
 public:
+	Exception() {}
 
-	virtual void what() {}
+	virtual string what() const noexcept { return "\nException\n"; }
+
+	virtual ~Exception() = default;
 };
 
 class Division_by_zero : public Exception 
 {
 private:
-	char* message;
+	string message;
 
 public:
-	Division_by_zero() : message{ new char[strlen("На 0 делить нельзя!\n")+1]}
-	{
-		strcpy_s(message, strlen("На 0 делить нельзя!\n") + 1, "На 0 делить нельзя!\n");
-	};
+	Division_by_zero() = delete;
+	Division_by_zero(string message_S) : message{ message_S } {}
 
-	void what()
-	{
-		printf(message);
-	}
+	virtual string what() const noexcept { return message; }
+
+	virtual ~Division_by_zero() = default;
 };
 
 class File_open_exc : public Exception
 {
 private:
-	char* message;
+	string message;
 
 public:
-	File_open_exc() : message{ new char[strlen("Ошибка открытия файла\n") + 1] }
-	{
-		strcpy_s(message, strlen("Ошибка открытия файла\n") + 1, "Ошибка открытия файла\n");
-	};
+	File_open_exc() = delete;
+	File_open_exc(string message_S) : message{ message_S } {}
 
-	void what()
-	{
-		printf(message);
-	}
+	virtual string what() const noexcept { return message; }
+
+	virtual ~File_open_exc() = default;
 };
 
 class File_close_exc : public Exception
 {
 private:
-	char* message;
+	string message;
 
 public:
-	File_close_exc() : message{ new char[strlen("Ошибка закрытия файла\n") + 1] }
-	{
-		strcpy_s(message, strlen("Ошибка закрытия файла\n") + 1, "Ошибка закрытия файла\n");
-	};
+	File_close_exc() = delete;
+	File_close_exc(string message_S) : message{ message_S } {}
 
-	void what()
-	{
-		printf(message);
-	}
+	virtual string what() const noexcept { return message; }
+
+	virtual ~File_close_exc() = default;
 };
 
-class Stack_overflow : public Exception
+class OutOfRange : public Exception
 {
 private:
-	char* message;
+	string message;
 
 public:
-	Stack_overflow() : message{ new char[strlen("Переполнение буфера\n") + 1] }
-	{
-		strcpy_s(message, strlen("Переполнение буфера\n") + 1, "Переполнение буфера\n");
-	};
+	OutOfRange() = delete;
+	OutOfRange(string message_S) : message{ message_S } {}
 
-	void what()
-	{
-		printf(message);
-	}
+	virtual string what() const noexcept { return message; }
+
+	virtual ~OutOfRange() = default;
 };

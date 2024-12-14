@@ -3,12 +3,9 @@
 int main()
 {
 	setlocale(LC_ALL, "rus");
-	Division_by_zero exc;
-	File_open_exc file_exc1;
-	File_close_exc file_exc2;
-	Stack_overflow over_exc;
 	FILE* file;
-	int num, den, size;
+	int num, den, index;
+	vector<int> mas = { 100, 90, 80, 70, 60, 50 };
 	char word[10]{ "\0" }, buf[100]{ "\0" };
 	try
 	{
@@ -18,12 +15,13 @@ int main()
 		cin >> den;
 		if (den == 0)
 		{
-			throw exc;
+			throw Division_by_zero{"\nDivision by zero\n"};
 		}
+		cout << "Частное от деления: " << num / den;
 	}
-	catch (Division_by_zero exception)
+	catch (Division_by_zero exc)
 	{
-		exception.what();
+		cout << exc.what();
 	}
 
 	cout << "\n\tРабота с файлом\n";
@@ -31,41 +29,41 @@ int main()
 	{
 		if (fopen_s(&file, "PhoneBook.txt", "r") != NULL)
 		{
-			throw file_exc1;
+			throw File_open_exc{ "\nFile open error\n" };
 		}
 		cout << "Всё ОК\n";
 	}
-	catch (File_open_exc exception)
+	catch (File_open_exc exc)
 	{
-		exception.what();
+		cout << exc.what();
 	}
 	try
 	{
 		if (fclose(file) != 0)
 		{
-			throw file_exc2;
+			throw File_close_exc{ "\nFile close error\n" };
 		}
 		cout << "Всё ОК\n";
 	}
 	catch (File_close_exc exception)
 	{
-		exception.what();
+		cout << exception.what();
 	}
 
 	try
 	{
-		cout << "\n\tНехватка пямяти\nВведите строку: ";
-		cin.ignore();
-		gets_s(buf);
-		if (strlen(buf)+1>10)
+		cout << "\n\nМассив\nВведите индекс для ввода: ";
+		cin >> index;
+		if (index > 4 || index < 0)
 		{
-			throw over_exc;
+			throw OutOfRange{ "\nOut Of Range\n" };
 		}
-		cout << "Всё ОК\n";
+		
+		cout << mas.at(index);
 	}
-	catch (Stack_overflow exception)
+	catch (OutOfRange exception)
 	{
-		exception.what();
+		cout << exception.what();
 	}
 
 	return 0;
